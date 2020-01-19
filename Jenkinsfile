@@ -38,20 +38,21 @@ pipeline {
         }
 
         stage('deploy to dev use AKS') {
-        		sh 'echo "Using Kubectl to deploy application (redeploy) on AKS"'
-        		withKubeConfig(
-        			caCertificate: '',
-        			contextName: 'dev',
-        			credentialsId: 'aks-credentials',
-        			serverUrl: 'https://akslab-8b97af61.hcp.eastasia.azmk8s.io:443') {
+            steps {
+                sh 'echo "Using Kubectl to deploy application (redeploy) on AKS"'
+                withKubeConfig(
+                    caCertificate: '',
+                    contextName: 'dev',
+                    credentialsId: 'aks-credentials',
+                    serverUrl: 'https://akslab-8b97af61.hcp.eastasia.azmk8s.io:443') {
+                        // sh "kubectl set image $K8S_NAMESPACE/$PROJECT_NAME $PROJECT_NAME=$DOCKER_REGISTRY/$PROJECT_NAME:${env.BUILD_TIMESTAMP}.${env.BUILD_ID}"
 
-        			// sh "kubectl set image $K8S_NAMESPACE/$PROJECT_NAME $PROJECT_NAME=$DOCKER_REGISTRY/$PROJECT_NAME:${env.BUILD_TIMESTAMP}.${env.BUILD_ID}"
-
-                    sh """
-                    sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > deploy/update-deploy.yaml
-        			kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
-        			"""
-        		}
-        	}
+                        sh """
+                            sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > deploy/update-deploy.yaml
+                        	kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
+                        """
+                    }
+            }
+        }
     }
 }
