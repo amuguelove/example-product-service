@@ -21,7 +21,7 @@ pipeline {
 
         stage('gradle clean build') {
             steps {
-                sh './gradlew clean build'
+                // sh './gradlew clean build'
             }
         }
         stage('push image to ACR') {
