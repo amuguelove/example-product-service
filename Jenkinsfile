@@ -29,7 +29,7 @@ pipeline {
                 ./gradlew jibDockerBuild
                 docker tag ${JIB_IMAGE} ${DOCKER_IMAGE}
                 docker tag ${JIB_IMAGE} ${DOCKER_LATEST_IMAGE}
-                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                docker login ${DOCKER_REGISTRY} -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                 docker push ${DOCKER_IMAGE}
                 docker push ${DOCKER_LATEST_IMAGE}
                 """
