@@ -5,7 +5,7 @@ pipeline {
         ACR_CREDS = credentials('acr-credentials')
         DOCKER_REGISTRY = 'mydevopsacr001.azurecr.io'
         PROJECT_NAME = 'example-product-service'
-        K8S_NAMESPACE = 'deployment'
+        K8S_NAMESPACE = 'development'
         DOCKER_IMAGE = "${DOCKER_REGISTRY}/${PROJECT_NAME}:${env.BUILD_TIMESTAMP}.${env.BUILD_ID}"
         DOCKER_LATEST_IMAGE = "${DOCKER_REGISTRY}/${PROJECT_NAME}:latest"
         JIB_IMAGE = "net.thoughtworks/${PROJECT_NAME}:latest"
