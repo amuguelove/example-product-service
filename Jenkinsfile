@@ -13,8 +13,10 @@ pipeline {
 
     stages {
         stage('clone repository') {
-        	sh 'echo "Cloning GitHub repository ..."'
-        	checkout scm
+            steps {
+                sh 'echo "Cloning GitHub repository ..."'
+                checkout scm
+            }
         }
 
         stage('gradle clean build') {
