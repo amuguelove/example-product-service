@@ -37,8 +37,8 @@ spec:
               value: k8s
           ports:
             - name: http
-              containerPort: 9090
+              containerPort: 8080
               protocol: TCP
             - name: actuator
-              containerPort: 9091
+              containerPort: 8081
               protocol: TCP
