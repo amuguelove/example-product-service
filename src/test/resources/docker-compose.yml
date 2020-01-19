@@ -17,6 +17,7 @@ services:
       - "MYSQL_ROOT_PASSWORD=abcd1234"
     ports:
       - "3306:3306"
+    network_mode: "host"
 
 #  nvdmirror:
 #    image: sspringett/nvdmirror
