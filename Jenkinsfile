@@ -2,8 +2,7 @@ pipeline {
     agent any 
 
     environment {
-        DOCKER_USERNAME = credentials('acr-secret-username')
-        DOCKER_PASSWORD = credentials('acr-secret-password')
+        ACR_CREDS = credentials('acr-credentials')
         DOCKER_REGISTRY = 'mydevopsacr001.azurecr.io'
         PROJECT_NAME = 'example-product-service'
         K8S_NAMESPACE = 'deployment'
@@ -29,7 +28,7 @@ pipeline {
                 ./gradlew jibDockerBuild
                 docker tag ${JIB_IMAGE} ${DOCKER_IMAGE}
                 docker tag ${JIB_IMAGE} ${DOCKER_LATEST_IMAGE}
-                docker login ${DOCKER_REGISTRY} -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                docker login ${DOCKER_REGISTRY} -u ${ACR_CREDS_USR} -p ${ACR_CREDS_PSW}'
                 docker push ${DOCKER_IMAGE}
                 docker push ${DOCKER_LATEST_IMAGE}
                 """
