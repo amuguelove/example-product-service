@@ -56,21 +56,6 @@ dependencies {
     runtimeOnly('mysql:mysql-connector-java:8.0.18')
 }
 
-jib {
-    from {
-        image = 'openjdk:8-jdk-slim'
-    }
-    to {
-        image = "${group}/${jar.archiveBaseName}"
-    }
-    container {
-        mainClass = 'net.thoughtworks.ProductServiceApplication'
-        jvmFlags = ['-Dserver.port=9090']
-        ports = ['9090']
-        useCurrentTimestamp = true
-    }
-}
-
 wrapper {
-    gradleVersion = '6.0.1'
+    gradleVersion = '6.1'
 }

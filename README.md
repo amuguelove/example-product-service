@@ -35,7 +35,7 @@ docker-compose up -d
 ### 用Intellij IDEA打开项目
 ```
 ./gradlew idea
-open leasing-brand.ipr
+open example-product-service.ipr
 ```
 
 ### 提交代码

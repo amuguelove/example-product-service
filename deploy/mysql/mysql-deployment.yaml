@@ -14,7 +14,7 @@ spec:
         tier: database
     spec:
       containers:
-        - image: mysql:5.7
+        - image: mysql:5.7.22
           name: product-database
           env:
             - name: MYSQL_ROOT_PASSWORD

@@ -1,8 +1,8 @@
 server:
-  port: 9090
+  port: 8080
 management:
   server:
-    port: 9091
+    port: 8081
 
 spring:
   profiles:
