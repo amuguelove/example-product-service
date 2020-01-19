@@ -1,0 +1,6 @@
+product:
+  - id: 1
+    name: product_name_001
+
+  - id: 2
+    name: product_name_002

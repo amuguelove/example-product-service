@@ -1,9 +1,11 @@
+spring:
+  application:
+    name: example-product-service
+  profiles:
+    active: local # default profile
+
 server:
   port: 8080
 management:
   server:
     port: 8081
-
-spring:
-  profiles:
-    active: local # default profile

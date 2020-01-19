@@ -4,7 +4,6 @@ jib {
     }
     to {
         image = "${group}/example-product-service"
-        tags = "latest"
     }
     container {
         mainClass = 'net.thoughtworks.ProductServiceApplication'

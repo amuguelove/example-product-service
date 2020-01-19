@@ -1,0 +1,14 @@
+apply plugin: "com.avast.gradle.docker-compose"
+
+dockerCompose {
+    local {
+        useComposeFiles = ['docker-compose.yml']
+    }
+    test {
+        useComposeFiles = ['src/test/resources/docker-compose.yml']
+    }
+}
+
+//bootRun.dependsOn localComposeUp
+
+dockerCompose.test.isRequiredBy(integrationTest)

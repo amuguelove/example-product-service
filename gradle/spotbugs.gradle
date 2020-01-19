@@ -1,5 +1,6 @@
 spotbugs {
     excludeFilter = file("$projectDir/config/spotbugs/exclude.xml")
+    sourceSets = [ sourceSets.main ]
 }
 
 spotbugsMain {

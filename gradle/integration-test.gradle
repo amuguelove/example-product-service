@@ -2,6 +2,9 @@ sourceSets {
     integrationTest {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
+        resources {
+            srcDirs "src/integrationTest/resources", "src/integrationTest/java"
+        }
     }
 }
 
@@ -20,6 +23,10 @@ task integrationTest(type: Test) {
     outputs.upToDateWhen { false } // other way: inputs.upToDateWhen { false }
 
     mustRunAfter test
+}
+
+integrationTest {
+    jvmArgs '-Dspring.profiles.active=test'
 }
 
 check.dependsOn integrationTest

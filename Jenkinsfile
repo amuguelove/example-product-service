@@ -36,8 +36,8 @@ pipeline {
             }
         }
 
-        stage('deploy to dev AKS') {
-        		sh 'echo "Using Kubectl to upgrade application (redeploy) on AKS"'
+        stage('deploy to dev use AKS') {
+        		sh 'echo "Using Kubectl to deploy application (redeploy) on AKS"'
         		withKubeConfig(
         			caCertificate: '',
         			contextName: 'dev',
@@ -47,8 +47,8 @@ pipeline {
         			// sh "kubectl set image $K8S_NAMESPACE/$PROJECT_NAME $PROJECT_NAME=$DOCKER_REGISTRY/$PROJECT_NAME:${env.BUILD_TIMESTAMP}.${env.BUILD_ID}"
 
                     sh """
-                    sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' deploy/app-update-deploy.tpl.yaml > deploy/update-deploy.yaml
-        			kubectl apply -f deploy/update-deploy.yaml -n ${K8S_NAMESPACE}
+                    sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > deploy/update-deploy.yaml
+        			kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
         			"""
         		}
         	}
