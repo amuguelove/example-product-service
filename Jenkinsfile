@@ -19,11 +19,12 @@ pipeline {
             }
         }
 
-        stage('gradle clean build') {
-            steps {
-                // sh './gradlew clean build'
-            }
-        }
+//         stage('gradle clean build') {
+//             steps {
+//                 sh './gradlew clean build'
+//             }
+//         }
+
         stage('push image to ACR') {
             steps {
                 sh """
