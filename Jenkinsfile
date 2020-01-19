@@ -21,7 +21,9 @@ pipeline {
 
 //         stage('gradle clean build') {
 //             steps {
-//                 sh './gradlew clean build'
+//                 sh """
+//                 ./gradlew clean build -Dorg.gradle.daemon=false
+//                 """
 //             }
 //         }
 
@@ -46,11 +48,9 @@ pipeline {
                     contextName: 'dev',
                     credentialsId: 'aks-credentials',
                     serverUrl: 'https://akslab-8b97af61.hcp.eastasia.azmk8s.io:443') {
-                        // sh "kubectl set image $K8S_NAMESPACE/$PROJECT_NAME $PROJECT_NAME=$DOCKER_REGISTRY/$PROJECT_NAME:${env.BUILD_TIMESTAMP}.${env.BUILD_ID}"
-
                         sh """
-                            sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > aks-shells/update-deploy.yaml
-                        	kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
+                        sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > aks-shells/update-deploy.yaml
+                        kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
                         """
                     }
             }
