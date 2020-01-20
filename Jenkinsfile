@@ -32,7 +32,7 @@ pipeline {
         stage('Build Project') {
             steps {
                 sh """
-                ./gradlew clean build -Dorg.gradle.daemon=false
+                sudo ./gradlew clean build -Dorg.gradle.daemon=false
                 """
             }
         }
@@ -48,7 +48,7 @@ pipeline {
         stage('push image to ACR') {
             steps {
                 sh """
-                ./gradlew jibDockerBuild
+                sudo ./gradlew jibDockerBuild
                 docker tag ${JIB_IMAGE} ${DOCKER_IMAGE}
                 docker tag ${JIB_IMAGE} ${DOCKER_LATEST_IMAGE}
                 docker login ${DOCKER_REGISTRY} -u ${ACR_CREDS_USR} -p ${ACR_CREDS_PSW}
