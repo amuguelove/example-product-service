@@ -49,11 +49,11 @@ pipeline {
             steps {
                 sh """
                 sudo ./gradlew jibDockerBuild
-                docker tag ${JIB_IMAGE} ${DOCKER_IMAGE}
-                docker tag ${JIB_IMAGE} ${DOCKER_LATEST_IMAGE}
-                docker login ${DOCKER_REGISTRY} -u ${ACR_CREDS_USR} -p ${ACR_CREDS_PSW}
-                docker push ${DOCKER_IMAGE}
-                docker push ${DOCKER_LATEST_IMAGE}
+                sudo docker tag ${JIB_IMAGE} ${DOCKER_IMAGE}
+                sudo docker tag ${JIB_IMAGE} ${DOCKER_LATEST_IMAGE}
+                sudo docker login ${DOCKER_REGISTRY} -u ${ACR_CREDS_USR} -p ${ACR_CREDS_PSW}
+                sudo docker push ${DOCKER_IMAGE}
+                sudo docker push ${DOCKER_LATEST_IMAGE}
                 """
             }
         }
@@ -68,7 +68,7 @@ pipeline {
                     serverUrl: 'https://akslab-8b97af61.hcp.eastasia.azmk8s.io:443') {
                         sh """
                         sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > aks-shells/update-deploy.yaml
-                        kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
+                        sudo /home/labuser/aztools/kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
                         """
                     }
             }
