@@ -22,7 +22,7 @@ pipeline {
         stage('gradle clean build') {
             steps {
                 sh """
-                ./gradlew clean build -Dorg.gradle.daemon=false
+                ./gradlew clean build --stacktrace -Dorg.gradle.daemon=false
                 """
             }
         }
