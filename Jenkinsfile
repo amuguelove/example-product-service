@@ -22,8 +22,8 @@ pipeline {
         stage('Create Docker Environment') {
             steps {
                 sh """
-                sudo docker-compose -f src/test/resources/docker-compose.yml down
-                sudo docker-compose -f src/test/resources/docker-compose.yml up -d
+                sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml down
+                sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml up -d
                 sleep 10
                 """
             }
@@ -40,7 +40,7 @@ pipeline {
         stage('Destroy Docker Environment') {
             steps {
                 sh """
-                sudo docker-compose -f src/test/resources/docker-compose.yml down
+                sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml down
                 """
             }
         }
