@@ -19,13 +19,13 @@ pipeline {
             }
         }
 
-//         stage('gradle clean build') {
-//             steps {
-//                 sh """
-//                 ./gradlew clean build -Dorg.gradle.daemon=false
-//                 """
-//             }
-//         }
+        stage('gradle clean build') {
+            steps {
+                sh """
+                ./gradlew clean build -Dorg.gradle.daemon=false
+                """
+            }
+        }
 
         stage('push image to ACR') {
             steps {
