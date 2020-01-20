@@ -19,12 +19,28 @@ pipeline {
             }
         }
 
-        stage('gradle clean build') {
+        stage('Create Docker Environment') {
             steps {
                 sh """
-                docker-compose -f src/test/resources/docker-compose.yml up -d
-                ./gradlew clean build --stacktrace
-                docker-compose -f src/test/resources/docker-compose.yml down
+                sudo docker-compose -f src/test/resources/docker-compose.yml down
+                sudo docker-compose -f src/test/resources/docker-compose.yml up -d
+                sleep 10
+                """
+            }
+        }
+
+        stage('Build Project') {
+            steps {
+                sh """
+                ./gradlew clean build -Dorg.gradle.daemon=false
+                """
+            }
+        }
+
+        stage('Destroy Docker Environment') {
+            steps {
+                sh """
+                sudo docker-compose -f src/test/resources/docker-compose.yml down
                 """
             }
         }
