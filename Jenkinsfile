@@ -22,7 +22,6 @@ pipeline {
         stage('Create Docker Environment') {
             steps {
                 sh """
-                sudo source ~/.bashrc
                 sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml down
                 sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml up -d
                 sleep 10
