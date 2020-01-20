@@ -42,7 +42,7 @@ pipeline {
 
         stage('deploy to dev use AKS') {
             steps {
-                sh 'echo "Using Kubectl to deploy application (redeploy) on AKS"'
+                sh 'echo "Using Kubectl to deploy application on AKS"'
                 withKubeConfig(
                     caCertificate: '',
                     contextName: 'dev',
