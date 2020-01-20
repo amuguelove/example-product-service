@@ -22,7 +22,9 @@ pipeline {
         stage('gradle clean build') {
             steps {
                 sh """
+                docker-compose -f src/test/resources/docker-compose.yml up -d
                 ./gradlew clean build --stacktrace
+                docker-compose -f src/test/resources/docker-compose.yml down
                 """
             }
         }
