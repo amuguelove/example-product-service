@@ -40,7 +40,7 @@ pipeline {
 //         stage('Destroy Docker Environment') {
 //             steps {
 //                 sh """
-//                 sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml down
+//                 docker-compose -f src/test/resources/docker-compose.yml down
 //                 """
 //             }
 //         }
