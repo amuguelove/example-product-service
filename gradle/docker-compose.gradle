@@ -11,4 +11,4 @@ dockerCompose {
 
 //bootRun.dependsOn localComposeUp
 
-//dockerCompose.test.isRequiredBy(integrationTest)
+dockerCompose.test.isRequiredBy(integrationTest)

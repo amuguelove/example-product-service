@@ -19,15 +19,15 @@ pipeline {
             }
         }
 
-        stage('Create Docker Environment') {
-            steps {
-                sh """
-                docker-compose -f src/test/resources/docker-compose.yml down
-                docker-compose -f src/test/resources/docker-compose.yml up -d
-                sleep 10
-                """
-            }
-        }
+//         stage('Create Docker Environment') {
+//             steps {
+//                 sh """
+//                 docker-compose -f src/test/resources/docker-compose.yml down
+//                 docker-compose -f src/test/resources/docker-compose.yml up -d
+//                 sleep 10
+//                 """
+//             }
+//         }
 
         stage('Build Project') {
             steps {
@@ -37,13 +37,13 @@ pipeline {
             }
         }
 
-        stage('Destroy Docker Environment') {
-            steps {
-                sh """
-                sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml down
-                """
-            }
-        }
+//         stage('Destroy Docker Environment') {
+//             steps {
+//                 sh """
+//                 sudo /usr/local/bin/docker-compose -f src/test/resources/docker-compose.yml down
+//                 """
+//             }
+//         }
 
         stage('push image to ACR') {
             steps {
