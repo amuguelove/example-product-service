@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: product-database
+  labels:
+    app: product-database
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: product-database
+        tier: database
+    spec:
+      containers:
+        - image: mysql:5.7
+          name: product-database
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: abcd1234
+            - name: MYSQL_DATABASE
+              value: example_db
+          ports:
+            - containerPort: 3306
+              name: db
