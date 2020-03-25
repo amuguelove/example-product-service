@@ -34,10 +34,10 @@ pipeline {
             steps {
                 sh """
                 ./gradlew jibDockerBuild
-                docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}
+                docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:${IMAG_TAG}
 
                 docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
-                docker push ${IMAGE_NAME}
+                docker push ${IMAGE_NAME}:${IMAG_TAG}
                 """
             }
         }
