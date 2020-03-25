@@ -1,6 +1,5 @@
 def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
 def LOCAL_IMAGE = 'net.thoughtworks/example-product-service:latest'
-
 pipeline {
     agent any 
 
@@ -16,12 +15,12 @@ pipeline {
     }
 
     stages {
-        stage('clone repository') {
-            steps {
-                sh 'echo "Cloning GitHub repository ..."'
-                checkout scm
-            }
-        }
+//         stage('clone repository') {
+//             steps {
+//                 sh 'echo "Cloning GitHub repository ..."'
+//                 checkout scm
+//             }
+//         }
 
         stage('build Project') {
             steps {
