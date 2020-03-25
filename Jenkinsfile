@@ -11,6 +11,10 @@ pipeline {
         //IMAG_TAG = env.GIT_COMMIT.substring(0,7)
     }
 
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+
     stages {
         stage('clone repository') {
             steps {
@@ -45,18 +49,18 @@ pipeline {
             }
         }
     }
+}
 
-    def deployToStage(ns, stage) {
-        withKubeConfig(
-            caCertificate: '',
-            contextName: '',
-            credentialsId: 'k8s-credentials',
-            serverUrl: 'https://cls-2vcqd9cl.ccs.tencent-cloud.com'
-        ) {
-            sh """
-              sed -i '' -e 's/example-product-service:latest/example-product-service:${IMAG_TAG}/g'  './deploy/tencent/app_${stage}.yaml'
-              kubectl -n ${ns ?: "default"} apply -f './deploy/tencent/app_${stage}.yaml' --force
-            """
-        }
+def deployToStage(ns, stage) {
+    withKubeConfig(
+        caCertificate: '',
+        contextName: '',
+        credentialsId: 'k8s-credentials',
+        serverUrl: 'https://cls-2vcqd9cl.ccs.tencent-cloud.com'
+    ) {
+        sh """
+          sed -i '' -e 's/example-product-service:latest/example-product-service:${IMAG_TAG}/g'  './deploy/tencent/app_${stage}.yaml'
+          kubectl -n ${ns ?: "default"} apply -f './deploy/tencent/app_${stage}.yaml' --force
+        """
     }
 }
