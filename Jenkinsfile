@@ -6,7 +6,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
         K8S_NAMESPACE = 'development'
-        IMAG_TAG = ${env.BUILD_ID}
+        IMAG_TAG = "${env.BUILD_ID}"
         //IMAG_TAG = env.GIT_COMMIT.substring(0,7)
     }
 
@@ -15,12 +15,12 @@ pipeline {
     }
 
     stages {
-//         stage('clone repository') {
-//             steps {
-//                 sh 'echo "Cloning GitHub repository ..."'
-//                 checkout scm
-//             }
-//         }
+        stage('clone repository') {
+            steps {
+                sh 'echo "Cloning GitHub repository ..."'
+                checkout scm
+            }
+        }
 
         stage('build Project') {
             steps {
