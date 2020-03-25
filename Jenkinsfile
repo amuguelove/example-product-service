@@ -25,7 +25,7 @@ pipeline {
         stage('build Project') {
             steps {
                 sh """
-                sudo ./gradlew clean build
+                ./gradlew clean build
                 """
             }
         }
