@@ -58,7 +58,7 @@ def deployToStage(ns, stage) {
         serverUrl: 'https://cls-2vcqd9cl.ccs.tencent-cloud.com'
     ) {
         sh """
-          cd "$(pwd)"
+          cd '\$(pwd)'
           sed -i '' -e 's/example-product-service:latest/example-product-service:${IMAG_TAG}/g'  './deploy/tencent/app-${stage}.yaml'
           kubectl -n ${ns ?: "default"} apply -f './deploy/tencent/app-${stage}.yaml' --force
         """
