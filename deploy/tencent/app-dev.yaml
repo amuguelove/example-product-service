@@ -24,6 +24,8 @@ spec:
             - name: actuator
               containerPort: 8081
               protocol: TCP
+      imagePullSecrets:
+        - name: docker-reg-secret
 ---
 apiVersion: v1
 kind: Service
