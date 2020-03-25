@@ -1,0 +1,46 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: example-product-dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: example-product-dev
+    spec:
+      containers:
+        - image: ccr.ccs.tencentyun.com/my-registry/example-product-service:latest
+          imagePullPolicy: IfNotPresent
+          name: example-product-dev
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: actuator
+              containerPort: 8081
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-product-dev
+  labels:
+    app: example-product-dev
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: actuator
+  selector:
+    app: example-product-dev

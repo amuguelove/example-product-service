@@ -29,7 +29,7 @@ pipeline {
 //             }
 //         }
 
-        stage('Build Project') {
+        stage('build Project') {
             steps {
                 sh """
                 sudo ./gradlew clean build -Dorg.gradle.daemon=false
