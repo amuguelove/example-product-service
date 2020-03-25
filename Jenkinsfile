@@ -1,14 +1,14 @@
+def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
+def LOCAL_IMAGE = 'net.thoughtworks/example-product-service:latest'
+
 pipeline {
     agent any 
 
     environment {
-        ACR_CREDS = credentials('acr-credentials')
-        DOCKER_REGISTRY = 'mydevopsacr001.azurecr.io'
-        PROJECT_NAME = 'example-product-service'
+        DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
         K8S_NAMESPACE = 'development'
-        DOCKER_IMAGE = "${DOCKER_REGISTRY}/${PROJECT_NAME}:${env.BUILD_TIMESTAMP}.${env.BUILD_ID}"
-        DOCKER_LATEST_IMAGE = "${DOCKER_REGISTRY}/${PROJECT_NAME}:latest"
-        JIB_IMAGE = "net.thoughtworks/${PROJECT_NAME}:latest"
+        IMAG_TAG = ${env.BUILD_ID}
+        //IMAG_TAG = env.GIT_COMMIT.substring(0,7)
     }
 
     stages {
@@ -19,59 +19,44 @@ pipeline {
             }
         }
 
-//         stage('Create Docker Environment') {
-//             steps {
-//                 sh """
-//                 docker-compose -f src/test/resources/docker-compose.yml down
-//                 docker-compose -f src/test/resources/docker-compose.yml up -d
-//                 sleep 10
-//                 """
-//             }
-//         }
-
         stage('build Project') {
             steps {
                 sh """
-                sudo ./gradlew clean build -Dorg.gradle.daemon=false
+                sudo ./gradlew clean build
                 """
             }
         }
 
-//         stage('Destroy Docker Environment') {
-//             steps {
-//                 sh """
-//                 docker-compose -f src/test/resources/docker-compose.yml down
-//                 """
-//             }
-//         }
-
-        stage('push image to ACR') {
+        stage('push image') {
             steps {
                 sh """
                 ./gradlew jibDockerBuild
-                docker tag ${JIB_IMAGE} ${DOCKER_IMAGE}
-                docker tag ${JIB_IMAGE} ${DOCKER_LATEST_IMAGE}
-                docker login ${DOCKER_REGISTRY} -u ${ACR_CREDS_USR} -p ${ACR_CREDS_PSW}
-                docker push ${DOCKER_IMAGE}
-                docker push ${DOCKER_LATEST_IMAGE}
+                docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}
+
+                docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
+                docker push ${IMAGE_NAME}
                 """
             }
         }
 
-        stage('deploy to dev use AKS') {
+        stage('deploy to dev') {
             steps {
-                sh 'echo "Using Kubectl to deploy application on AKS"'
-                withKubeConfig(
-                    caCertificate: '',
-                    contextName: '',
-                    credentialsId: 'aks-credentials',
-                    serverUrl: 'https://akslab-8b97af61.hcp.eastasia.azmk8s.io:443') {
-                        sh """
-                        sed \'s#{{ docker_image }}#${DOCKER_IMAGE}#g\' aks-shells/app-update-deploy.tpl.yaml > aks-shells/update-deploy.yaml
-                        kubectl apply -f aks-shells/update-deploy.yaml -n ${K8S_NAMESPACE}
-                        """
-                    }
+                deployToStage('dev', 'dev')
             }
+        }
+    }
+
+    def deployToStage(ns, stage) {
+        withKubeConfig(
+            caCertificate: '',
+            contextName: '',
+            credentialsId: 'k8s-credentials',
+            serverUrl: 'https://cls-2vcqd9cl.ccs.tencent-cloud.com'
+        ) {
+            sh """
+              sed -i '' -e 's/example-product-service:latest/example-product-service:${IMAG_TAG}/g'  './deploy/tencent/app_${stage}.yaml'
+              kubectl -n ${ns ?: "default"} apply -f './deploy/tencent/app_${stage}.yaml' --force
+            """
         }
     }
 }
