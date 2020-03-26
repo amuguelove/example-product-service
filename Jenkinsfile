@@ -54,8 +54,8 @@ pipeline {
             always {
                 publishHTML target: [
                         allowMissing         : false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll              : true,
                         reportDir            : 'build/reports/jacoco/test/html',
                         reportFiles          : 'index.html',
                         reportName           : 'Jacoco Report'
@@ -63,13 +63,12 @@ pipeline {
 
                 publishHTML target: [
                         allowMissing         : false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : false,
-                        reportDir            : 'build/reports/tests/test/',
+                        alwaysLinkToLastBuild: true,
+                        keepAll              : true,
+                        reportDir            : 'build/reports/tests/integrationTest/',
                         reportFiles          : 'index.html',
                         reportName           : 'Test Report'
                 ]
-
             }
         }
 }
