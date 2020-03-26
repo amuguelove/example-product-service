@@ -63,8 +63,8 @@ pipeline {
 
                 publishHTML target: [
                         allowMissing         : false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll              : true,
                         reportDir            : 'build/reports/tests/test/',
                         reportFiles          : 'index.html',
                         reportName           : 'Test Report'
