@@ -27,6 +27,7 @@ pipeline {
                 sh """
                 ./gradlew clean build
                 """
+
             }
         }
 
@@ -48,6 +49,29 @@ pipeline {
             }
         }
     }
+
+    post {
+            always {
+                publishHTML target: [
+                        allowMissing         : false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : false,
+                        reportDir            : 'build/reports/jacoco/test/html',
+                        reportFiles          : 'index.html',
+                        reportName           : 'Jacoco Report'
+                ]
+
+                publishHTML target: [
+                        allowMissing         : false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : false,
+                        reportDir            : 'build/reports/tests/test/',
+                        reportFiles          : 'index.html',
+                        reportName           : 'Test Report'
+                ]
+
+            }
+        }
 }
 
 def deployToStage(ns, stage) {
