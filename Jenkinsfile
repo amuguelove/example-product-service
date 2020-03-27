@@ -28,7 +28,7 @@ pipeline {
         stage('build Project') {
             steps {
                 sh """
-                ./gradlew clean build
+                ./gradlew clean build -Dorg.gradle.daemon=false
                 """
 
             }
