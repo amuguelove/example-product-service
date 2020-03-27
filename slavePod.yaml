@@ -4,7 +4,8 @@ metadata:
     jenkins/label: jnlp-agent
 spec:
   containers:
-    - image: ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle
+#    - image: ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle
+    - image: jicki/jenkins-jnlp:gradle5.6
       imagePullPolicy: Always
       name: jnlp
       tty: true
