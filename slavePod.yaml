@@ -1,44 +1,44 @@
 metadata:
   labels:
-    jenkins: "slave"
-    jenkins/label: "jnlp-agent"
+    jenkins: slave
+    jenkins/label: jnlp-agent
 spec:
   containers:
-      image: "ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle"
-      imagePullPolicy: "Always"
-      name: "jnlp"
+      image: ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle
+      imagePullPolicy: Always
+      name: jnlp
       tty: true
       volumeMounts:
-        - mountPath: "/usr/bin/kubectl"
-          name: "volume-3"
+        - mountPath: /usr/bin/kubectl
+          name: volume-3
           readOnly: false
-        - mountPath: "/var/run/docker.sock"
-          name: "volume-1"
+        - mountPath: /var/run/docker.sock
+          name: volume-1
           readOnly: false
-        - mountPath: "/usr/bin/docker"
-          name: "volume-0"
+        - mountPath: /usr/bin/docker
+          name: volume-0
           readOnly: false
-        - mountPath: "/root/.kube"
-          name: "volume-2"
+        - mountPath: /root/.kube
+          name: volume-2
           readOnly: false
-        - mountPath: "/home/jenkins/agent"
-          name: "workspace-volume"
+        - mountPath: /home/jenkins/agent
+          name: workspace-volume
           readOnly: false
-  restartPolicy: "Never"
-  serviceAccount: "jenkins"
+  restartPolicy: Never
+  serviceAccount: jenkins
   volumes:
     - hostPath:
-        path: "/usr/bin/docker"
-      name: "volume-0"
+        path: /usr/bin/docker
+      name: volume-0
     - hostPath:
-        path: "/root/.kube/"
-      name: "volume-2"
+        path: /root/.kube/
+      name: volume-2
     - hostPath:
-        path: "/var/run/docker.sock"
-      name: "volume-1"
+        path: /var/run/docker.sock
+      name: volume-1
     - emptyDir:
         medium: ""
-      name: "workspace-volume"
+      name: workspace-volume
     - hostPath:
-        path: "/usr/bin/kubectl"
-      name: "volume-3"
+        path: /usr/bin/kubectl
+      name: volume-3
