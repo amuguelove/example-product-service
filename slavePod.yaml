@@ -25,6 +25,8 @@ spec:
         - mountPath: /home/jenkins/agent
           name: workspace-volume
           readOnly: false
+        - mountPath: /root/.gradle
+          name: volume-4
   restartPolicy: Never
   serviceAccount: jenkins
   volumes:
@@ -43,3 +45,6 @@ spec:
     - hostPath:
         path: /usr/bin/kubectl
       name: volume-3
+    - hostPath:
+        path: /opt/data/gradle
+      name: volume-4
