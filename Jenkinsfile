@@ -57,7 +57,7 @@ pipeline {
         stage('build Project') {
             steps {
                 sh """
-                gradle clean build
+                gradle clean build --info
                 """
 
             }
