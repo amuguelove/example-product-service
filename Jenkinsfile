@@ -11,7 +11,6 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
-        K8S_NAMESPACE = 'development'
         IMAG_TAG = "${env.BUILD_ID}"
         //IMAG_TAG = env.GIT_COMMIT.substring(0,7)
     }
@@ -57,7 +56,7 @@ pipeline {
         stage('build Project') {
             steps {
                 sh """
-                gradle clean build --info
+                ./gradlew clean build --info
                 """
 
             }
@@ -66,7 +65,7 @@ pipeline {
         stage('push image') {
             steps {
                 sh """
-                gradle jibDockerBuild
+                ./gradlew jibDockerBuild
                 docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:${IMAG_TAG}
 
                 docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
