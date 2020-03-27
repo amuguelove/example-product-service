@@ -4,7 +4,6 @@ metadata:
   labels:
     jenkins: slave
     jenkins/label: jnlp-agent
-  name: jnlp-agent
 spec:
   containers:
 #    - image: ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle
@@ -30,6 +29,8 @@ spec:
           readOnly: false
         - mountPath: /root/.gradle
           name: volume-4
+        - mountPath: /tmp
+          name: volume-5
   restartPolicy: Never
   serviceAccount: jenkins
   volumes:
@@ -51,3 +52,6 @@ spec:
     - hostPath:
         path: /opt/data/gradle
       name: volume-4
+    - hostPath:
+        path: /opt/data/gradle/tmp
+      name: volume-5
