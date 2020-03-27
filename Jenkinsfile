@@ -1,7 +1,10 @@
 def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
 def LOCAL_IMAGE = 'net.thoughtworks/example-product-service:latest'
 pipeline {
-    agent any 
+//     agent any
+    agent {
+        label 'jnlp-agent'
+    }
 
     environment {
         DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
