@@ -21,6 +21,32 @@ pipeline {
     }
 
     stages {
+        stage('show Java version') {
+            steps {
+                sh 'java -version'
+            }
+        }
+
+        stage('show Gradle version') {
+            steps {
+                sh 'gradle -version'
+            }
+        }
+
+        stage('show docker info') {
+            steps {
+                sh 'docker info'
+            }
+        }
+
+        stage('show kubernetes pods') {
+            steps {
+                sh 'kubectl get pods'
+            }
+        }
+
+
+        //  ===========================================
         stage('clone repository') {
             steps {
                 sh 'echo "Cloning GitHub repository ..."'
@@ -31,7 +57,7 @@ pipeline {
         stage('build Project') {
             steps {
                 sh """
-                ./gradlew clean build -Dorg.gradle.daemon=false
+                gradle clean build
                 """
 
             }
@@ -40,7 +66,7 @@ pipeline {
         stage('push image') {
             steps {
                 sh """
-                ./gradlew jibDockerBuild
+                gradle jibDockerBuild
                 docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:${IMAG_TAG}
 
                 docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
