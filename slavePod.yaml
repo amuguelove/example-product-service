@@ -1,4 +1,7 @@
-kind: "Pod"
+metadata:
+  labels:
+    jenkins: "slave"
+    jenkins/label: "jnlp-agent"
 spec:
   containers:
       image: "ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle"
