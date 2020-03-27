@@ -27,7 +27,9 @@ pipeline {
         }
 
         stage('show kubernetes pods') {
-             sh 'kubectl get pods'
+            steps {
+                sh 'kubectl get pods'
+            }
         }
     }
 }
