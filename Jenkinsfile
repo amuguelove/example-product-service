@@ -6,19 +6,17 @@ pipeline {
   }
 
   stages {
-    stage('Task-1') {
-        stage('show Java version') {
-            sh 'java -version'
-        }
-        stage('show Gradle version') {
-            sh 'gradle -version'
-        }
-        stage('show docker info') {
-            sh 'docker info'
-        }
-        stage('show kubernetes pods') {
-            sh 'kubectl get pods'
-        }
+    stage('show Java version') {
+        sh 'java -version'
+    }
+    stage('show Gradle version') {
+        sh 'gradle -version'
+    }
+    stage('show docker info') {
+        sh 'docker info'
+    }
+    stage('show kubernetes pods') {
+        sh 'kubectl get pods'
     }
   }
 }
