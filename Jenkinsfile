@@ -20,29 +20,29 @@ pipeline {
     }
 
     stages {
-        stage('show Java version') {
-            steps {
-                sh 'java -version'
-            }
-        }
-
-        stage('show Gradle version') {
-            steps {
-                sh 'gradle -version'
-            }
-        }
-
-        stage('show docker info') {
-            steps {
-                sh 'docker info'
-            }
-        }
-
-        stage('show kubernetes pods') {
-            steps {
-                sh 'kubectl get pods'
-            }
-        }
+//         stage('show Java version') {
+//             steps {
+//                 sh 'java -version'
+//             }
+//         }
+//
+//         stage('show Gradle version') {
+//             steps {
+//                 sh 'gradle -version'
+//             }
+//         }
+//
+//         stage('show docker info') {
+//             steps {
+//                 sh 'docker info'
+//             }
+//         }
+//
+//         stage('show kubernetes pods') {
+//             steps {
+//                 sh 'kubectl get pods'
+//             }
+//         }
 
 
         //  ===========================================
