@@ -46,12 +46,12 @@ pipeline {
 
 
         //  ===========================================
-        stage('clone repository') {
-            steps {
-                sh 'echo "Cloning GitHub repository ..."'
-                checkout scm
-            }
-        }
+//         stage('clone repository') {
+//             steps {
+//                 sh 'echo "Cloning GitHub repository ..."'
+//                 checkout scm
+//             }
+//         }
 
         stage('build Project') {
             steps {

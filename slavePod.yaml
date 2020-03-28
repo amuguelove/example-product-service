@@ -7,8 +7,8 @@ metadata:
 spec:
   containers:
 #    - image: ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle
-#    - image: jicki/jenkins-jnlp:gradle5.6
-    - image: jenkins/jnlp-slave:alpine
+    - image: jicki/jenkins-jnlp:gradle5.6
+#    - image: jenkins/jnlp-slave:alpine
       imagePullPolicy: Always
       name: jnlp
       tty: true
