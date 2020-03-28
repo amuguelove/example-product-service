@@ -23,14 +23,14 @@ pipeline {
         stage('build Project') {
             steps {
                 sh """
-                ./gradlew clean build --info
+                ./gradlew clean build
                 """
             }
         }
 
         stage('push image') {
             steps {
-                sh "docker images --filter=reference=\"${image_name}:*\" -q | xargs docker rmi --force || true"
+                sh "docker images --filter=reference=\"${IMAGE_NAME}:*\" -q | xargs docker rmi --force || true"
                 sh "docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
                 sh "docker build -t ${IMAGE_NAME}:${IMAG_TAG} ."
                 sh "docker push ${IMAGE_NAME}:${IMAG_TAG}"
