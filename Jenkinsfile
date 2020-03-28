@@ -10,8 +10,8 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
-//         IMAG_TAG = "${env.BUILD_ID}"
-        IMAG_TAG = env.GIT_COMMIT.substring(0,7)
+        IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
+//         IMAG_TAG = env.GIT_COMMIT.substring(0,7)
     }
 
     options {
