@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mysql://${LOCAL_ADDRESS:localhost}:3306/example_db?characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true&&nullCatalogMeansCurrent=true
+#    url: jdbc:mysql://${LOCAL_ADDRESS:localhost}:3306/example_db?characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true&&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://172.27.0.3:3306/example_db?characterEncoding=UTF-8&useSSL=false&createDatabaseIfNotExist=true&&nullCatalogMeansCurrent=true
     username: root
     password: abcd1234
     driver-class-name: com.mysql.cj.jdbc.Driver
