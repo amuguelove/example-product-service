@@ -23,7 +23,7 @@ pipeline {
         stage('build Project') {
             steps {
                 sh "export LOCAL_ADDRESS=172.27.0.3"
-                sh "./gradlew clean build --info"
+                sh "./gradlew clean build --info -Dorg.gradle.daemon=false"
             }
         }
 
