@@ -7,7 +7,8 @@ metadata:
 spec:
   containers:
 #    - image: ccr.ccs.tencentyun.com/my-registry/jenkins:salve-gradle
-    - image: jicki/jenkins-jnlp:gradle5.6
+#    - image: jicki/jenkins-jnlp:gradle5.6
+    - image: jenkins/jnlp-slave:alpine
       imagePullPolicy: Always
       name: jnlp
       tty: true
@@ -29,8 +30,10 @@ spec:
           readOnly: false
         - mountPath: /root/.gradle
           name: volume-4
-        - mountPath: /tmp
+        - mountPath: /home/jenkins/.gradle
           name: volume-5
+        - mountPath: /tmp
+          name: volume-6
   restartPolicy: Never
   serviceAccount: jenkins
   volumes:
@@ -53,5 +56,8 @@ spec:
         path: /opt/data/gradle
       name: volume-4
     - hostPath:
-        path: /opt/data/gradle/tmp
+        path: /opt/data/gradle
       name: volume-5
+    - hostPath:
+        path: /opt/data/gradle/tmp
+      name: volume-6
