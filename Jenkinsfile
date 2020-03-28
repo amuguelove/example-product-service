@@ -22,6 +22,7 @@ pipeline {
 
         stage('build Project') {
             steps {
+                sh "export LOCAL_ADDRESS=172.27.0.3"
                 sh "./gradlew clean build"
             }
         }
@@ -57,7 +58,7 @@ pipeline {
                         allowMissing         : false,
                         alwaysLinkToLastBuild: true,
                         keepAll              : true,
-                        reportDir            : 'build/reports/tests/test',
+                        reportDir            : 'build/reports/tests/integrationTest',
                         reportFiles          : 'index.html',
                         reportName           : 'Test Report'
                 ]
