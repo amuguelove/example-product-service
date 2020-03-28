@@ -1,5 +1,4 @@
 def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
-def LOCAL_IMAGE = 'net.thoughtworks/example-product-service:latest'
 
 pipeline {
 
@@ -20,57 +19,21 @@ pipeline {
     }
 
     stages {
-//         stage('show Java version') {
-//             steps {
-//                 sh 'java -version'
-//             }
-//         }
-//
-//         stage('show Gradle version') {
-//             steps {
-//                 sh 'gradle -version'
-//             }
-//         }
-//
-//         stage('show docker info') {
-//             steps {
-//                 sh 'docker info'
-//             }
-//         }
-//
-//         stage('show kubernetes pods') {
-//             steps {
-//                 sh 'kubectl get pods'
-//             }
-//         }
-
-
-        //  ===========================================
-//         stage('clone repository') {
-//             steps {
-//                 sh 'echo "Cloning GitHub repository ..."'
-//                 checkout scm
-//             }
-//         }
 
         stage('build Project') {
             steps {
                 sh """
                 ./gradlew clean build --info
                 """
-
             }
         }
 
         stage('push image') {
             steps {
-                sh """
-                ./gradlew jibDockerBuild
-                docker tag ${LOCAL_IMAGE} ${IMAGE_NAME}:${IMAG_TAG}
-
-                docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
-                docker push ${IMAGE_NAME}:${IMAG_TAG}
-                """
+                sh "docker images --filter=reference=\"${image_name}:*\" -q | xargs docker rmi --force || true"
+                sh "docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
+                sh "docker build -t ${IMAGE_NAME}:${IMAG_TAG} ."
+                sh "docker push ${IMAGE_NAME}:${IMAG_TAG}"
             }
         }
 
