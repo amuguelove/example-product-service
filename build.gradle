@@ -23,14 +23,14 @@ repositories {
     mavenCentral()
 }
 
-apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
+//apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
 apply from: "${rootProject.projectDir}/gradle/checkstyle.gradle"
 apply from: "${rootProject.projectDir}/gradle/spotbugs.gradle"
 apply from: "${rootProject.projectDir}/gradle/git-hooks.gradle"
 apply from: "${rootProject.projectDir}/gradle/idea.gradle"
 apply from: "${rootProject.projectDir}/gradle/dependency-check.gradle"
 apply from: "${rootProject.projectDir}/gradle/sonarqube.gradle"
-apply from: "${rootProject.projectDir}/gradle/docker-compose.gradle"
+//apply from: "${rootProject.projectDir}/gradle/docker-compose.gradle"
 apply from: "${rootProject.projectDir}/gradle/jacoco.gradle"
 
 group = 'net.thoughtworks'
