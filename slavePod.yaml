@@ -34,6 +34,8 @@ spec:
           name: volume-5
         - mountPath: /tmp
           name: volume-6
+        - mountPath: /usr/bin/docker-compose
+          name: volume-7
   restartPolicy: Never
   serviceAccount: jenkins
   volumes:
@@ -61,3 +63,6 @@ spec:
     - hostPath:
         path: /tmp
       name: volume-6
+    - hostPath:
+        path: /usr/bin/docker-compose
+      name: volume-7
