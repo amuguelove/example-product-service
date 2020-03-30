@@ -48,7 +48,7 @@ podTemplate(
     }
 
     stage('deploy to dev') {
-      deployToStage('dev', 'dev', ${IMAG_TAG})
+      deployToStage('dev', 'dev', IMAG_TAG)
     }
 
     post {
