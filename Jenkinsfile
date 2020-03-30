@@ -1,17 +1,20 @@
 def label = "jnlp-slave-${UUID.randomUUID().toString()}"
 
-podTemplate(label: label, cloud: 'kubernetes', containers: [
-  containerTemplate(name: 'jnlp', image: 'jicki/jenkins-jnlp:gradle5.6', ttyEnabled: true)
-],
-serviceAccount: 'jenkins',
-volumes: [
-  hostPathVolume(mountPath: '/usr/bin/docker', hostPath: '/usr/bin/docker'),
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-  hostPathVolume(mountPath: '/root/.gradle', hostPath: '/opt/data/gradle'),
-  hostPathVolume(mountPath: '/usr/bin/kubectl', hostPath: '/usr/bin/kubectl'),
-  hostPathVolume(mountPath: '/root/.kube/', hostPath: '/root/.kube/'),
-//   hostPathVolume(mountPath: '/tmp', hostPath: '/tmp'),
-]) {
+podTemplate(
+  label: label,
+  cloud: 'kubernetes',
+  containers: [
+    containerTemplate(name: 'jnlp', image: 'jicki/jenkins-jnlp:gradle5.6', ttyEnabled: true)
+  ],
+  serviceAccount: 'jenkins',
+  volumes: [
+    hostPathVolume(mountPath: '/usr/bin/docker', hostPath: '/usr/bin/docker'),
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+    hostPathVolume(mountPath: '/root/.gradle', hostPath: '/opt/data/gradle'),
+    hostPathVolume(mountPath: '/usr/bin/kubectl', hostPath: '/usr/bin/kubectl'),
+    hostPathVolume(mountPath: '/root/.kube/', hostPath: '/root/.kube/'),
+  ]
+) {
   node(label) {
     def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
     def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
