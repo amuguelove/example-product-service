@@ -42,7 +42,6 @@ podTemplate(
           sh """
             docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
             docker build -t ${IMAGE_NAME}:${IMAG_TAG} .
-            docker push namespace/my-image:${gitCommit}
             docker push ${IMAGE_NAME}:${IMAG_TAG}
             """
         }
