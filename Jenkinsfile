@@ -17,7 +17,7 @@ volumes: [
     def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
     def DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
 
-    stage('checkout') {
+    stage('clone repository') {
       checkout([
         $class: 'GitSCM',
         branches: [[name: '*/master']],
@@ -29,12 +29,9 @@ volumes: [
     }
 
     stage('build project') {
-      sh """
-        pwd
-        echo "LOCAL_ADDRESS=172.27.0.3" >> /etc/environment
-        ./gradlew clean build -Dorg.gradle.daemon=false
-        """
+      sh "LOCAL_ADDRESS=172.27.0.3 ./gradlew clean build -Dorg.gradle.daemon=false"
     }
+
     stage('push image') {
       sh "docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
       sh "docker build -t ${IMAGE_NAME}:${IMAG_TAG} ."
