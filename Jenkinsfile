@@ -1,4 +1,5 @@
 def label = "jnlp-slave-${UUID.randomUUID().toString()}"
+def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
 
 podTemplate(
   label: label,
@@ -17,7 +18,6 @@ podTemplate(
 ) {
   node(label) {
     def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
-    def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
 
     stage('clone repository') {
       checkout([
