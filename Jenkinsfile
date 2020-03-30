@@ -18,7 +18,10 @@ podTemplate(
   node(label) {
     def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
     def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
-    def DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
+
+    environment {
+        DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
+    }
 
     stage('clone repository') {
       checkout([
