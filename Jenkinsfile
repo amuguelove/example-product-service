@@ -1,5 +1,4 @@
 def label = "jnlp-slave-${UUID.randomUUID().toString()}"
-def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
 
 podTemplate(
   label: label,
@@ -18,6 +17,7 @@ podTemplate(
 ) {
   node(label) {
     def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
+    def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
 
     stage('clone repository') {
       checkout([
@@ -48,7 +48,7 @@ podTemplate(
     }
 
     stage('deploy to dev') {
-      deployToStage('dev', 'dev')
+      deployToStage('dev', 'dev', ${IMAG_TAG})
     }
 
     post {
@@ -75,7 +75,7 @@ podTemplate(
   }
 }
 
-def deployToStage(ns, stage) {
+def deployToStage(ns, stage, imageTag) {
     withKubeConfig(
         caCertificate: '',
         contextName: '',
@@ -85,7 +85,7 @@ def deployToStage(ns, stage) {
         sh "echo 172.27.0.5 cls-2vcqd9cl.ccs.tencent-cloud.com >> /etc/hosts"
 
         sh """
-        sed \'s/example-product-service:latest/example-product-service:${IMAG_TAG}/g\' './deploy/tencent/app-${stage}.yaml'
+        sed \'s/example-product-service:latest/example-product-service:${imageTag}/g\' './deploy/tencent/app-${stage}.yaml'
         kubectl -n ${ns ?: "default"} apply -f './deploy/tencent/app-${stage}.yaml' --force
         """
     }
