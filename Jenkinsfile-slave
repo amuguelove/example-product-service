@@ -1,36 +1,44 @@
-def label = "jnlp-slave-${UUID.randomUUID().toString()}"
+def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
 
-podTemplate(label: label, cloud: 'kubernetes', containers: [
-  containerTemplate(name: 'jnlp', image: 'jicki/jenkins-jnlp:gradle5.6', ttyEnabled: true)
-],
-volumes: [
-  hostPathVolume(mountPath: '/usr/bin/docker', hostPath: '/usr/bin/docker'),
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-  hostPathVolume(mountPath: '/root/.gradle', hostPath: '/opt/data/gradle'),
-  hostPathVolume(mountPath: '/usr/bin/kubectl', hostPath: '/usr/bin/kubectl'),
-  hostPathVolume(mountPath: '/root/.kube/', hostPath: '/root/.kube/'),
-//   hostPathVolume(mountPath: '/tmp', hostPath: '/tmp'),
-]) {
-  node(label) {
-    def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
-    def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
-    def DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
+pipeline {
 
-    stage('build project') {
-      sh """
-        pwd
-        echo "LOCAL_ADDRESS=172.27.0.3" >> /etc/environment
-        ./gradlew clean build -Dorg.gradle.daemon=false
-        """
-    }
-    stage('push image') {
-      sh "docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
-      sh "docker build -t ${IMAGE_NAME}:${IMAG_TAG} ."
-      sh "docker push ${IMAGE_NAME}:${IMAG_TAG}"
+    agent {
+        kubernetes {
+          yamlFile 'slavePod.yaml'
+        }
     }
 
-    stage('deploy to dev') {
-      deployToStage('dev', 'dev')
+    environment {
+        DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
+        IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
+//         IMAG_TAG = env.GIT_COMMIT.substring(0,7)
+    }
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+
+    stages {
+
+        stage('build Project') {
+            steps {
+                sh "LOCAL_ADDRESS=172.27.0.3 ./gradlew clean build -Dorg.gradle.daemon=false"
+            }
+        }
+
+        stage('push image') {
+            steps {
+                sh "docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
+                sh "docker build -t ${IMAGE_NAME}:${IMAG_TAG} ."
+                sh "docker push ${IMAGE_NAME}:${IMAG_TAG}"
+            }
+        }
+
+        stage('deploy to dev') {
+            steps {
+                deployToStage('dev', 'dev')
+            }
+        }
     }
 
     post {
@@ -53,8 +61,7 @@ volumes: [
                         reportName           : 'Test Report'
                 ]
             }
-    }
-  }
+        }
 }
 
 def deployToStage(ns, stage) {
