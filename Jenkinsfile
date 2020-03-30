@@ -19,10 +19,6 @@ podTemplate(
     def IMAGE_NAME = 'ccr.ccs.tencentyun.com/my-registry/example-product-service'
     def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
 
-    environment {
-        DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
-    }
-
     stage('clone repository') {
       checkout([
         $class: 'GitSCM',
@@ -39,9 +35,17 @@ podTemplate(
     }
 
     stage('push image') {
-      sh "docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
-      sh "docker build -t ${IMAGE_NAME}:${IMAG_TAG} ."
-      sh "docker push ${IMAGE_NAME}:${IMAG_TAG}"
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+          credentialsId: 'DOCKER_CREDENTIALS',
+          usernameVariable: 'DOCKER_CREDENTIALS_USR',
+          passwordVariable: 'DOCKER_CREDENTIALS_PSW']]) {
+          sh """
+            docker login ccr.ccs.tencentyun.com -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
+            docker build -t ${IMAGE_NAME}:${IMAG_TAG} .
+            docker push namespace/my-image:${gitCommit}
+            docker push ${IMAGE_NAME}:${IMAG_TAG}
+            """
+        }
     }
 
     stage('deploy to dev') {
