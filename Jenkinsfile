@@ -3,6 +3,7 @@ def label = "jnlp-slave-${UUID.randomUUID().toString()}"
 podTemplate(label: label, cloud: 'kubernetes', containers: [
   containerTemplate(name: 'jnlp', image: 'jicki/jenkins-jnlp:gradle5.6', ttyEnabled: true)
 ],
+serviceAccount: 'jenkins',
 volumes: [
   hostPathVolume(mountPath: '/usr/bin/docker', hostPath: '/usr/bin/docker'),
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
