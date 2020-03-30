@@ -20,18 +20,36 @@ podTemplate(
     def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
 
     stage('clone repository') {
-      checkout([
+        checkout([
         $class: 'GitSCM',
         branches: [[name: '*/master']],
         doGenerateSubmoduleConfigurations: false,
         extensions: [[$class: 'CleanBeforeCheckout']],
         submoduleCfg: [],
         userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/amuguelove/example-product-service.git']]])
-      echo 'Checkout'
+        echo 'Checkout'
     }
 
     stage('build project') {
-      sh "LOCAL_ADDRESS=172.27.0.3 ./gradlew clean build -Dorg.gradle.daemon=false"
+        sh "LOCAL_ADDRESS=172.27.0.3 ./gradlew clean build -Dorg.gradle.daemon=false"
+
+        publishHTML target: [
+                allowMissing         : false,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : 'build/reports/jacoco/test/html',
+                reportFiles          : 'index.html',
+                reportName           : 'Jacoco Report'
+        ]
+
+        publishHTML target: [
+                allowMissing         : false,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : 'build/reports/tests/integrationTest',
+                reportFiles          : 'index.html',
+                reportName           : 'Test Report'
+        ]
     }
 
     stage('push image') {
@@ -51,27 +69,6 @@ podTemplate(
       deployToStage('dev', 'dev', IMAG_TAG)
     }
 
-    post {
-            always {
-                publishHTML target: [
-                        allowMissing         : false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll              : true,
-                        reportDir            : 'build/reports/jacoco/test/html',
-                        reportFiles          : 'index.html',
-                        reportName           : 'Jacoco Report'
-                ]
-
-                publishHTML target: [
-                        allowMissing         : false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll              : true,
-                        reportDir            : 'build/reports/tests/integrationTest',
-                        reportFiles          : 'index.html',
-                        reportName           : 'Test Report'
-                ]
-            }
-    }
   }
 }
 
