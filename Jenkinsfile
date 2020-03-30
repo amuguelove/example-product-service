@@ -17,6 +17,17 @@ volumes: [
     def IMAG_TAG = "${env.Build_TIMESTAMP}.${env.BUILD_ID}"
     def DOCKER_CREDENTIALS = credentials('DOCKER_CREDENTIALS')
 
+    stage('checkout') {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: '*/master']],
+        doGenerateSubmoduleConfigurations: false,
+        extensions: [[$class: 'CleanBeforeCheckout']],
+        submoduleCfg: [],
+        userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/amuguelove/example-product-service.git']]])
+      echo 'Checkout'
+    }
+
     stage('build project') {
       sh """
         pwd
