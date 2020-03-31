@@ -83,7 +83,7 @@ def deployToStage(ns, stage, imageTag) {
         sh "echo 172.27.0.5 cls-2vcqd9cl.ccs.tencent-cloud.com >> /etc/hosts"
 
         sh """
-        sed \'s/example-product-service:latest/example-product-service:${imageTag}/g\' './deploy/tencent/app-${stage}.yaml'
+        sed -i '' -e  \'s/example-product-service:latest/example-product-service:${imageTag}/g\' './deploy/tencent/app-${stage}.yaml'
         kubectl -n ${ns ?: "default"} apply -f './deploy/tencent/app-${stage}.yaml' --force
         """
     }
