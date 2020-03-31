@@ -1,4 +1,4 @@
-def label = "jnlp-slave"
+def label = "example-product-service-slave"
 
 podTemplate(
   label: label,
