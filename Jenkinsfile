@@ -1,4 +1,4 @@
-def label = "jnlp-slave-${UUID.randomUUID().toString()}"
+def label = "jnlp-slave"
 
 podTemplate(
   label: label,
