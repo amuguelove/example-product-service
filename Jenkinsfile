@@ -4,7 +4,7 @@ podTemplate(
   label: label,
   cloud: 'kubernetes',
   containers: [
-    containerTemplate(name: 'jnlp', image: 'jicki/jenkins-jnlp:gradle5.6', ttyEnabled: true)
+    containerTemplate(name: 'jnlp', image: 'amuguelove/jenkins:jnlp-slave-4.3', ttyEnabled: true)
   ],
   serviceAccount: 'jenkins',
   volumes: [
@@ -13,6 +13,7 @@ podTemplate(
     hostPathVolume(mountPath: '/root/.gradle', hostPath: '/opt/data/gradle'),
     hostPathVolume(mountPath: '/usr/bin/kubectl', hostPath: '/usr/bin/kubectl'),
     hostPathVolume(mountPath: '/root/.kube/', hostPath: '/root/.kube/'),
+    hostPathVolume(mountPath: '/usr/bin/docker-compose', hostPath: '/usr/bin/docker-compose'),
   ]
 ) {
   node(label) {
@@ -31,7 +32,7 @@ podTemplate(
     }
 
     stage('build project') {
-        sh "LOCAL_ADDRESS=172.27.0.3 ./gradlew clean build -Dorg.gradle.daemon=false"
+        sh "LOCAL_ADDRESS=172.27.0.15 ./gradlew clean build -Dorg.gradle.daemon=false"
 
         publishHTML target: [
                 allowMissing         : false,
