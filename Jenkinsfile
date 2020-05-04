@@ -4,7 +4,7 @@ podTemplate(
   label: label,
   cloud: 'kubernetes',
   containers: [
-    containerTemplate(name: 'jnlp', image: 'amuguelove/jenkins:jnlp-slave-4.3', ttyEnabled: true)
+    containerTemplate(name: 'jnlp', image: 'amuguelove/jenkins-jnlp:4.3', ttyEnabled: true)
   ],
   serviceAccount: 'jenkins',
   volumes: [

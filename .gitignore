@@ -1,17 +1,28 @@
-.gradle/
-.idea/
-.shelf
-.nvdmirror
-build/
-.DS_Store
+# IDEA
+.idea
 *.iml
-out/
 *.ipr
 *.iws
-.vagrant/
-.local/
-.vagrant/
-*.swp
-target/
-dependency-check-data/
+
+# Gradle
+.gradle
+out/
+build/**
+**/build/
+classes/
+
+# Mac
+.DS_Store
+
+# Eclipse
+**/*.project
+**/*.classpath
+**/*.settings
+
+# Project
 *.hprof
+*.log
+**/*.log
+**/*.log.*
+
+src/generated/**
